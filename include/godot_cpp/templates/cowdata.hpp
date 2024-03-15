@@ -31,6 +31,11 @@
 #ifndef GODOT_COWDATA_HPP
 #define GODOT_COWDATA_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/templates/cowdata.h>
+#include <core/templates/vector.h>
+#else
+
 #include <godot_cpp/classes/global_constants.hpp>
 #include <godot_cpp/core/error_macros.hpp>
 #include <godot_cpp/core/math.hpp>
@@ -489,4 +494,5 @@ CowData<T>::~CowData() {
 
 } // namespace godot
 
+#endif
 #endif // GODOT_COWDATA_HPP

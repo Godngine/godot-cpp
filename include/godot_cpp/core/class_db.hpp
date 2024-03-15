@@ -31,6 +31,13 @@
 #ifndef GODOT_CLASS_DB_HPP
 #define GODOT_CLASS_DB_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/core_bind.h>
+#include <core/object/class_db.h>
+#include <servers/physics_server_3d.h>
+#include <servers/physics_server_2d.h>
+#else
+
 #include <gdextension_interface.h>
 
 #include <godot_cpp/core/defs.hpp>
@@ -359,4 +366,5 @@ MethodBind *ClassDB::bind_vararg_method(uint32_t p_flags, StringName p_name, M p
 
 CLASSDB_SINGLETON_VARIANT_CAST;
 
+#endif
 #endif // GODOT_CLASS_DB_HPP

@@ -31,6 +31,11 @@
 #ifndef GODOT_OBJECT_HPP
 #define GODOT_OBJECT_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/object/object.h>
+#include <platform/android/api/java_class_wrapper.h>
+#else
+
 #include <godot_cpp/core/defs.hpp>
 
 #include <godot_cpp/core/object_id.hpp>
@@ -149,4 +154,5 @@ const T *Object::cast_to(const Object *p_object) {
 
 } // namespace godot
 
+#endif
 #endif // GODOT_OBJECT_HPP

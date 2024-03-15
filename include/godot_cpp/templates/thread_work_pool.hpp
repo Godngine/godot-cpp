@@ -31,6 +31,11 @@
 #ifndef GODOT_THREAD_WORK_POOL_HPP
 #define GODOT_THREAD_WORK_POOL_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/object/worker_thread_pool.h>
+#include <platform/linuxbsd/wayland/wayland_thread.h>
+#else
+
 #include <godot_cpp/classes/os.hpp>
 #include <godot_cpp/classes/semaphore.hpp>
 #include <godot_cpp/core/error_macros.hpp>
@@ -202,4 +207,5 @@ public:
 
 } // namespace godot
 
+#endif
 #endif // GODOT_THREAD_WORK_POOL_HPP
