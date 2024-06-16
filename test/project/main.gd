@@ -9,12 +9,15 @@ class TestClass:
 func _ready():
 	var example: Example = $Example
 
+	# Timing of set instance binding.
+	assert_equal(example.is_object_binding_set_by_parent_constructor(), true)
+
 	# Signal.
 	example.emit_custom_signal("Button", 42)
 	assert_equal(custom_signal_emitted, ["Button", 42])
 
 	# To string.
-	assert_equal(example.to_string(),'Example:[ GDExtension::Example <--> Instance ID:%s ]' % example.get_instance_id())
+	assert_equal(example.to_string(),'[ GDExtension::Example <--> Instance ID:%s ]' % example.get_instance_id())
 	# It appears there's a bug with instance ids :-(
 	#assert_equal($Example/ExampleMin.to_string(), 'ExampleMin:[Wrapped:%s]' % $Example/ExampleMin.get_instance_id())
 
@@ -191,6 +194,10 @@ func _ready():
 	control.queue_free()
 	sprite.queue_free()
 
+	# Test that passing null for objects works as expected too.
+	var example_null : Example = null
+	assert_equal(example.test_object_cast_to_node(example_null), false)
+
 	# Test conversions to and from Variant.
 	assert_equal(example.test_variant_vector2i_conversion(Vector2i(1, 1)), Vector2i(1, 1))
 	assert_equal(example.test_variant_vector2i_conversion(Vector2(1.0, 1.0)), Vector2i(1, 1))
@@ -251,6 +258,9 @@ func _ready():
 	# Test a virtual method defined in GDExtension and implemented in script.
 	assert_equal(example.test_virtual_implemented_in_script("Virtual", 939), "Implemented")
 	assert_equal(custom_signal_emitted, ["Virtual", 939])
+
+	# Test that we can access an engine singleton.
+	assert_equal(example.test_use_engine_singleton(), OS.get_name())
 
 	# Test that notifications happen on both parent and child classes.
 	var example_child = $ExampleChild

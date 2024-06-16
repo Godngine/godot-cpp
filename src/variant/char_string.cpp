@@ -65,7 +65,7 @@ _FORCE_INLINE_ bool is_str_less(const L *l_ptr, const R *r_ptr) {
 	}
 }
 
-template <class T>
+template <typename T>
 bool CharStringT<T>::operator<(const CharStringT<T> &p_right) const {
 	if (length() == 0) {
 		return p_right.length() != 0;
@@ -74,7 +74,7 @@ bool CharStringT<T>::operator<(const CharStringT<T> &p_right) const {
 	return is_str_less(get_data(), p_right.get_data());
 }
 
-template <class T>
+template <typename T>
 CharStringT<T> &CharStringT<T>::operator+=(T p_char) {
 	const int64_t lhs_len = length();
 	resize(lhs_len + 2);
@@ -86,7 +86,7 @@ CharStringT<T> &CharStringT<T>::operator+=(T p_char) {
 	return *this;
 }
 
-template <class T>
+template <typename T>
 void CharStringT<T>::operator=(const T *p_cstr) {
 	copy_from(p_cstr);
 }
@@ -127,7 +127,7 @@ const wchar_t *CharStringT<wchar_t>::get_data() const {
 	}
 }
 
-template <class T>
+template <typename T>
 void CharStringT<T>::copy_from(const T *p_cstr) {
 	if (!p_cstr) {
 		resize(0);
@@ -178,8 +178,8 @@ String String::utf8(const char *from, int64_t len) {
 	return ret;
 }
 
-void String::parse_utf8(const char *from, int64_t len) {
-	internal::gdextension_interface_string_new_with_utf8_chars_and_len(_native_ptr(), from, len);
+Error String::parse_utf8(const char *from, int64_t len) {
+	return (Error)internal::gdextension_interface_string_new_with_utf8_chars_and_len2(_native_ptr(), from, len);
 }
 
 String String::utf16(const char16_t *from, int64_t len) {
@@ -188,8 +188,8 @@ String String::utf16(const char16_t *from, int64_t len) {
 	return ret;
 }
 
-void String::parse_utf16(const char16_t *from, int64_t len) {
-	internal::gdextension_interface_string_new_with_utf16_chars_and_len(_native_ptr(), from, len);
+Error String::parse_utf16(const char16_t *from, int64_t len, bool default_little_endian) {
+	return (Error)internal::gdextension_interface_string_new_with_utf16_chars_and_len2(_native_ptr(), from, len, default_little_endian);
 }
 
 String String::num_real(double p_num, bool p_trailing) {

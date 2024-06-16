@@ -22,7 +22,7 @@ This repository contains the  *C++ bindings* for the [**Godot Engine**](https://
 - [**Compatibility**](#compatibility)
 - [**Contributing**](#contributing)
 - [**Getting started**](#getting-started)
-- [**Included example**](#included-example)
+- [**Examples and templates**](#examples-and-templates)
 
 ## Versioning
 
@@ -132,7 +132,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
-	ClassDB::register_class<Example>();
+	GDREGISTER_CLASS(Example);
 }
 ```
 

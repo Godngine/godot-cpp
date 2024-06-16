@@ -58,6 +58,16 @@ struct TypesAreSame<A, A> {
 	static bool const value = true;
 };
 
+template <auto A, auto B>
+struct FunctionsAreSame {
+	static bool const value = false;
+};
+
+template <auto A>
+struct FunctionsAreSame<A, A> {
+	static bool const value = true;
+};
+
 template <typename B, typename D>
 struct TypeInherits {
 	static D *get_d();
@@ -90,7 +100,7 @@ static PropertyInfo make_property_info(Variant::Type p_type, const StringName &p
 // instead of a forward declaration. You can always forward declare 'T' in a header file, and then
 // include the actual declaration of 'T' in the source file where 'GetTypeInfo<T>' is instantiated.
 
-template <class T, typename = void>
+template <typename T, typename = void>
 struct GetTypeInfo;
 
 #define MAKE_TYPE_INFO(m_type, m_var_type)                                                                            \
@@ -198,8 +208,8 @@ struct GetTypeInfo<const Variant &> {
 
 template <typename T>
 struct GetTypeInfo<T *, typename EnableIf<TypeInherits<Object, T>::value>::type> {
-	static const GDExtensionVariantType VARIANT_TYPE = GDEXTENSION_VARIANT_TYPE_OBJECT;
-	static const GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;
+	static constexpr GDExtensionVariantType VARIANT_TYPE = GDEXTENSION_VARIANT_TYPE_OBJECT;
+	static constexpr GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;
 	static inline PropertyInfo get_class_info() {
 		return make_property_info(Variant::Type::OBJECT, "", PROPERTY_HINT_RESOURCE_TYPE, T::get_class_static());
 	}
@@ -207,8 +217,8 @@ struct GetTypeInfo<T *, typename EnableIf<TypeInherits<Object, T>::value>::type>
 
 template <typename T>
 struct GetTypeInfo<const T *, typename EnableIf<TypeInherits<Object, T>::value>::type> {
-	static const GDExtensionVariantType VARIANT_TYPE = GDEXTENSION_VARIANT_TYPE_OBJECT;
-	static const GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;
+	static constexpr GDExtensionVariantType VARIANT_TYPE = GDEXTENSION_VARIANT_TYPE_OBJECT;
+	static constexpr GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;
 	static inline PropertyInfo get_class_info() {
 		return make_property_info(Variant::Type::OBJECT, "", PROPERTY_HINT_RESOURCE_TYPE, T::get_class_static());
 	}
@@ -226,8 +236,8 @@ inline String enum_qualified_name_to_class_info_name(const String &p_qualified_n
 #define TEMPL_MAKE_ENUM_TYPE_INFO(m_enum, m_impl)                                                                                            \
 	template <>                                                                                                                              \
 	struct GetTypeInfo<m_impl> {                                                                                                             \
-		static const Variant::Type VARIANT_TYPE = Variant::INT;                                                                              \
-		static const GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;                            \
+		static constexpr Variant::Type VARIANT_TYPE = Variant::INT;                                                                          \
+		static constexpr GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;                        \
 		static inline PropertyInfo get_class_info() {                                                                                        \
 			return make_property_info(Variant::Type::INT, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_CLASS_IS_ENUM, \
 					enum_qualified_name_to_class_info_name(#m_enum));                                                                        \
@@ -248,7 +258,7 @@ inline StringName _gde_constant_get_enum_name(T param, StringName p_constant) {
 	return GetTypeInfo<T>::get_class_info().class_name;
 }
 
-template <class T>
+template <typename T>
 class BitField {
 	int64_t value = 0;
 
@@ -264,8 +274,8 @@ public:
 #define TEMPL_MAKE_BITFIELD_TYPE_INFO(m_enum, m_impl)                                                                                            \
 	template <>                                                                                                                                  \
 	struct GetTypeInfo<m_impl> {                                                                                                                 \
-		static const Variant::Type VARIANT_TYPE = Variant::INT;                                                                                  \
-		static const GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;                                \
+		static constexpr Variant::Type VARIANT_TYPE = Variant::INT;                                                                              \
+		static constexpr GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;                            \
 		static inline PropertyInfo get_class_info() {                                                                                            \
 			return make_property_info(Variant::Type::INT, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_CLASS_IS_BITFIELD, \
 					enum_qualified_name_to_class_info_name(#m_enum));                                                                            \
@@ -273,8 +283,8 @@ public:
 	};                                                                                                                                           \
 	template <>                                                                                                                                  \
 	struct GetTypeInfo<BitField<m_impl>> {                                                                                                       \
-		static const Variant::Type VARIANT_TYPE = Variant::INT;                                                                                  \
-		static const GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;                                \
+		static constexpr Variant::Type VARIANT_TYPE = Variant::INT;                                                                              \
+		static constexpr GDExtensionClassMethodArgumentMetadata METADATA = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;                            \
 		static inline PropertyInfo get_class_info() {                                                                                            \
 			return make_property_info(Variant::Type::INT, "", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_CLASS_IS_BITFIELD, \
 					enum_qualified_name_to_class_info_name(#m_enum));                                                                            \
@@ -295,7 +305,7 @@ inline StringName _gde_constant_get_bitfield_name(T param, StringName p_constant
 	return GetTypeInfo<BitField<T>>::get_class_info().class_name;
 }
 
-template <class T>
+template <typename T>
 struct PtrToArg<TypedArray<T>> {
 	_FORCE_INLINE_ static TypedArray<T> convert(const void *p_ptr) {
 		return TypedArray<T>(*reinterpret_cast<const Array *>(p_ptr));
@@ -306,7 +316,7 @@ struct PtrToArg<TypedArray<T>> {
 	}
 };
 
-template <class T>
+template <typename T>
 struct PtrToArg<const TypedArray<T> &> {
 	typedef Array EncodeT;
 	_FORCE_INLINE_ static TypedArray<T>
