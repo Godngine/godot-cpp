@@ -32,6 +32,7 @@
 #define GODOT_GODOT_HPP
 
 #ifdef GODOT_MODULE_COMPAT
+#include "modules/register_module_types.h"
 #else
 
 #include <gdextension_interface.h>
