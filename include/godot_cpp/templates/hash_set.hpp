@@ -31,6 +31,18 @@
 #ifndef GODOT_HASH_SET_HPP
 #define GODOT_HASH_SET_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/variant/array.h>
+#include <core/templates/hash_map.h>
+#include <core/templates/rb_set.h>
+#include <core/templates/list.h>
+#include <core/templates/rb_map.h>
+#include <core/templates/local_vector.h>
+#include <core/templates/vector.h>
+#include <core/templates/hash_set.h>
+#include <core/templates/oa_hash_map.h>
+#else
+
 #include <godot_cpp/core/error_macros.hpp>
 #include <godot_cpp/core/memory.hpp>
 #include <godot_cpp/templates/hash_map.hpp>
@@ -474,4 +486,5 @@ public:
 
 } // namespace godot
 
+#endif
 #endif // GODOT_HASH_SET_HPP

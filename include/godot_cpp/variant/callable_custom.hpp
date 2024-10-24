@@ -31,6 +31,11 @@
 #ifndef GODOT_CALLABLE_CUSTOM_HPP
 #define GODOT_CALLABLE_CUSTOM_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/extension/gdextension_interface.h>
+#include <core/variant/callable.h>
+#else
+
 #include <godot_cpp/core/object_id.hpp>
 #include <godot_cpp/variant/string_name.hpp>
 
@@ -62,4 +67,5 @@ public:
 
 } // namespace godot
 
+#endif
 #endif // GODOT_CALLABLE_CUSTOM_HPP

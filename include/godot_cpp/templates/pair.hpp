@@ -31,6 +31,13 @@
 #ifndef GODOT_PAIR_HPP
 #define GODOT_PAIR_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/templates/vmap.h>
+#include <core/templates/lru.h>
+#include <core/templates/pair.h>
+#include <modules/gdscript/gdscript_parser.h>
+#else
+
 namespace godot {
 
 template <typename F, typename S>
@@ -104,4 +111,5 @@ struct KeyValueSort {
 
 } // namespace godot
 
+#endif
 #endif // GODOT_PAIR_HPP

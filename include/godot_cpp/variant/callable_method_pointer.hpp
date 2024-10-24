@@ -31,6 +31,20 @@
 #ifndef GODOT_CALLABLE_METHOD_POINTER_HPP
 #define GODOT_CALLABLE_METHOD_POINTER_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <drivers/gles3/rasterizer_canvas_gles3.h>
+#include <drivers/vulkan/rendering_device_driver_vulkan.h>
+#include <drivers/d3d12/rendering_device_driver_d3d12.h>
+#include <core/object/callable_method_pointer.h>
+#include <core/string/node_path.h>
+#include <scene/3d/node_3d.h>
+#include <scene/gui/control.h>
+#include <scene/main/node.h>
+#include <servers/rendering/renderer_geometry_instance.h>
+#include <servers/rendering/rendering_light_culler.h>
+#include <servers/rendering/renderer_rd/storage_rd/particles_storage.h>
+#else
+
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/variant/variant.hpp>
 
@@ -270,4 +284,5 @@ Callable create_custom_callable_static_function_pointer(R (*p_method)(P...)) {
 
 } // namespace godot
 
+#endif
 #endif // GODOT_CALLABLE_METHOD_POINTER_HPP

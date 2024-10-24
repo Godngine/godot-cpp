@@ -31,6 +31,15 @@
 #ifndef GODOT_BINDER_COMMON_HPP
 #define GODOT_BINDER_COMMON_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/object/ref_counted.h>
+#include <core/variant/binder_common.h>
+#include <core/variant/typed_dictionary.h>
+#include <core/variant/method_ptrcall.h>
+#include <core/variant/type_info.h>
+#include <core/variant/typed_array.h>
+#else
+
 #include <gdextension_interface.h>
 
 #include <godot_cpp/core/method_ptrcall.hpp>
@@ -693,4 +702,5 @@ void call_with_ptr_args_static_method_ret(R (*p_method)(P...), const GDExtension
 #include <godot_cpp/classes/global_constants_binds.hpp>
 #include <godot_cpp/variant/builtin_binds.hpp>
 
+#endif
 #endif // GODOT_BINDER_COMMON_HPP

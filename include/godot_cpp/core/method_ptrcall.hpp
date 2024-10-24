@@ -31,6 +31,18 @@
 #ifndef GODOT_METHOD_PTRCALL_HPP
 #define GODOT_METHOD_PTRCALL_HPP
 
+#ifdef GODOT_MODULE_COMPAT
+#include <core/object/ref_counted.h>
+#include <core/variant/binder_common.h>
+#include <core/variant/variant_internal.h>
+#include <core/variant/typed_dictionary.h>
+#include <core/variant/variant_construct.h>
+#include <core/variant/method_ptrcall.h>
+#include <core/variant/type_info.h>
+#include <core/variant/typed_array.h>
+#include <core/variant/native_ptr.h>
+#else
+
 #include <godot_cpp/core/defs.hpp>
 
 #include <godot_cpp/core/object.hpp>
@@ -235,4 +247,5 @@ GDVIRTUAL_NATIVE_PTR(double);
 
 } // namespace godot
 
+#endif
 #endif // GODOT_METHOD_PTRCALL_HPP
