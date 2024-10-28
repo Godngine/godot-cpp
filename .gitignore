@@ -199,3 +199,6 @@ venv
 # Clion Configuration
 .idea/
 cmake-build-*
+
+# CMake related
+CMakeUserPresets.json
